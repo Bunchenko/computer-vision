@@ -8,8 +8,15 @@ Promise.all([
 ]).then(getMedia)
 
 async function getMedia() {
-    const stream = await navigator.mediaDevices.getUserMedia({video: true});
-    video.srcObject = stream;
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({video: true});
+        video.srcObject = stream;
+    } catch (error) {
+        const warning = document.createElement('p');
+        document.querySelector('body').append(warning);
+        video.style.display = 'none';
+        warning.textContent = 'Give access to your camera!';
+    }
 }
 
 video.addEventListener('playing', () => {
